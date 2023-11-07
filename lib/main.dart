@@ -13,6 +13,8 @@ void main() async {
   /// Register Hive Adapter
   Hive.registerAdapter<Task>(TaskAdapter());
 
+  Hive.registerAdapter<TaskStatus>(TaskStatusAdapter());
+
   /// Open box
   var box = await Hive.openBox<Task>("tasksBox");
 
