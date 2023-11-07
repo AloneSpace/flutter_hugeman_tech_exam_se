@@ -6,15 +6,16 @@ part 'task.model.g.dart';
 @HiveType(typeId: 0)
 class Task extends HiveObject {
   Task(
-      {required this.id,
+      {this.id,
       required this.title,
       required this.description,
+      //*Not reqiored createdAt
       required this.createdAt,
-      required this.status});
+      this.status});
 
   /// ID
   @HiveField(0)
-  final String id;
+  final String? id;
 
   /// TITLE
   @HiveField(1)
@@ -30,7 +31,7 @@ class Task extends HiveObject {
 
   /// STATUS
   @HiveField(4)
-  TodoStatus status;
+  TodoStatus? status;
 
   /// create new Task
   factory Task.create({
