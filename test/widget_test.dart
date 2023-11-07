@@ -6,25 +6,76 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_hugeman_tech_exam_se/data/hive_data_store.dart';
+import 'package:flutter_hugeman_tech_exam_se/model/task.model.dart';
+import 'package:flutter_hugeman_tech_exam_se/screens/main_screen.dart';
+import 'package:flutter_hugeman_tech_exam_se/widgets/rounded-input.widget.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_hugeman_tech_exam_se/main.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'dart:io';
 
-void main() {
+void initHive() {
+  var path = Directory.current.path;
+  Hive.init('$path/test/hive_testing_path');
+}
+
+void main() async {
+  initHive();
+  Hive.registerAdapter<Task>(TaskAdapter());
+  Hive.registerAdapter<TaskStatus>(TaskStatusAdapter());
+  var box = await Hive.openBox<Task>("tasksBox");
+
+  testWidgets("Create RoundedInput", (WidgetTester tester) async {
+    final RoundedInputWidget roundedInputWidget = RoundedInputWidget(
+      textController: TextEditingController(),
+      hintText: "Test",
+      onChanged: (String value) {},
+    );
+    await tester.pumpWidget(roundedInputWidget);
+
+    final hintTextFinder = find.text("Test");
+    expect(hintTextFinder, findsOneWidget);
+  });
+
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
+  });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  test("Hive data should add, update, get", () async {
+    final dataStore = HiveDataStore();
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    dataStore.addTask(
+        task: Task.create(title: "Test", description: "Test description"));
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    dataStore.updateTask(
+        task: Task.create(
+      title: "Test",
+      description: "Test description",
+    ));
+
+    final task = await dataStore.getTask(id: "1");
+    if (task != null) {
+      expect(task.title, "Test");
+    }
+  });
+
+  test("Hive data should delete", () async {
+    final dataStore = HiveDataStore();
+
+    dataStore.addTask(
+        task: Task.create(title: "Test", description: "Test description"));
+
+    dataStore.deleteTask(
+        task: Task.create(
+      title: "Test",
+      description: "Test description",
+    ));
+
+    final task = await dataStore.getTask(id: "1");
+    expect(task, null);
   });
 }

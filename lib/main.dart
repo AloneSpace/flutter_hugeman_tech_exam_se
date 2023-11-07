@@ -1,21 +1,22 @@
+// ignore_for_file: unused_import
 import 'package:flutter/material.dart';
 import 'package:flutter_hugeman_tech_exam_se/model/task.model.dart';
 import 'package:flutter_hugeman_tech_exam_se/screens/main_screen.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
-  /// Initial Hive DB
+  WidgetsFlutterBinding.ensureInitialized();
+  // Initial Hive DB
   await Hive.initFlutter();
 
-  /// Register Hive Adapter
+  // Register Hive Adapter
   Hive.registerAdapter<Task>(TaskAdapter());
 
   Hive.registerAdapter<TaskStatus>(TaskStatusAdapter());
 
-  /// Open box
+  // Open box
   var box = await Hive.openBox<Task>("tasksBox");
 
   runApp(const MyApp());
