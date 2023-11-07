@@ -1,16 +1,17 @@
 # flutter_hugeman_tech_exam_se
 
-A new Flutter project.
+Task App using Flutter implement Hive, and GetX
 
-## Getting Started
+## Project setup
 
-This project is a starting point for a Flutter application.
+```
+flutter pub get
+```
 
-A few resources to get you started if this is your first Flutter project:
+## Pictures
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="readme/simulator_screenshot_153D5FD6-A3F3-4ED1-BF0E-E422EE21319E.png" width="200">
+<img src="readme/simulator_screenshot_36819741-165C-438B-9DCA-B7DDC74F91EF.png" width="200">
+<img src="readme/simulator_screenshot_25EBB735-9E66-420B-BA82-E09AADA44E78.png" width="200">
+<img src="readme/simulator_screenshot_FB219F41-96FD-481D-AE5D-B8F393ABEC42.png" width="200">
+<img src="readme/simulator_screenshot_A570F4DE-DFAF-4D05-AF40-E052040615CE.png" width="200">
