@@ -17,11 +17,11 @@ class TaskAdapter extends TypeAdapter<Task> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Task(
-      id: fields[0] as String,
+      id: fields[0] as String?,
       title: fields[1] as String,
       description: fields[2] as String,
       createdAt: fields[3] as DateTime,
-      status: fields[4] as TodoStatus,
+      status: fields[4] as TaskStatus?,
     );
   }
 
@@ -48,6 +48,45 @@ class TaskAdapter extends TypeAdapter<Task> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is TaskAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class TaskStatusAdapter extends TypeAdapter<TaskStatus> {
+  @override
+  final int typeId = 1;
+
+  @override
+  TaskStatus read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return TaskStatus.inProgress;
+      case 1:
+        return TaskStatus.completed;
+      default:
+        return TaskStatus.inProgress;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, TaskStatus obj) {
+    switch (obj) {
+      case TaskStatus.inProgress:
+        writer.writeByte(0);
+        break;
+      case TaskStatus.completed:
+        writer.writeByte(1);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TaskStatusAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

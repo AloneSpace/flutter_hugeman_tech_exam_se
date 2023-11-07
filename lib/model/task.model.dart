@@ -31,7 +31,7 @@ class Task extends HiveObject {
 
   /// STATUS
   @HiveField(4)
-  TodoStatus? status;
+  TaskStatus? status;
 
   /// create new Task
   factory Task.create({
@@ -44,11 +44,15 @@ class Task extends HiveObject {
         title: title ?? "",
         description: description ?? "",
         createdAt: createdAt ?? DateTime.now(),
-        status: TodoStatus.inProgress,
+        status: TaskStatus.inProgress,
       );
 }
 
-enum TodoStatus {
+@HiveType(typeId: 1)
+enum TaskStatus {
+  @HiveField(0)
   inProgress,
+
+  @HiveField(1)
   completed,
 }
