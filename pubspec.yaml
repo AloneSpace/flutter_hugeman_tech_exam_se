@@ -42,6 +42,7 @@ dependencies:
     intl: ^0.18.1
     animate_do: ^3.1.2
     lottie: ^2.7.0
+    awesome_dialog: ^3.1.0
 
 dev_dependencies:
     flutter_test:
